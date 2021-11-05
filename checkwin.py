@@ -70,18 +70,19 @@ def seconddiagonal(board, a, b):
         return 1
     return 0
 
-import numpy
+if __name__=='__main__':
+    import numpy
 
-#pieces per column
-#levels = numpy.zeros(7, numpy.int8)
-level = numpy.array([0,0,0,2,3,4,4])
+    #pieces per column
+    #levels = numpy.zeros(7, numpy.int8)
+    level = numpy.array([0,0,0,2,3,4,4])
 
-matrix = numpy.array([
-    [0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0],
-    [0,0,0,2,0,1,2],
-    [0,0,0,0,1,0,2],
-    [0,0,0,1,0,1,2],
-    [0,0,0,0,0,0,1]])
+    matrix = numpy.array([
+        [0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0],
+        [0,0,0,2,0,1,2],
+        [0,0,0,0,1,0,2],
+        [0,0,0,1,0,1,2],
+        [0,0,0,0,0,0,1]])
 
-run(matrix,3,5)
+    run(matrix,3,5)
