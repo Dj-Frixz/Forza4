@@ -72,6 +72,7 @@ def seconddiagonal(board, a, b):
 
 if __name__=='__main__':
     import numpy
+    import util
 
     #pieces per column
     #levels = numpy.zeros(7, numpy.int8)
@@ -80,9 +81,9 @@ if __name__=='__main__':
     matrix = numpy.array([
         [0,0,0,0,0,0,0],
         [0,0,0,0,0,0,0],
-        [0,0,0,2,0,1,2],
-        [0,0,0,0,1,0,2],
-        [0,0,0,1,0,1,2],
-        [0,0,0,0,0,0,1]])
-
+        [0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0]])
+    
     run(matrix,3,5)
