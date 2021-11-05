@@ -1,10 +1,14 @@
 import numpy
 
 def issymmetrical(matrix):
-    a = numpy.rot90(matrix)
-    if numpy.equal(a[:3], numpy.flip(a[4:],1)):
+    rotmatrix = numpy.rot90(matrix) #rotates the matrix so slicing is possible among rows
+    sidea = rotmatrix[:3]
+    sideb_flipped = numpy.flip(rotmatrix[4:],1)
+    sides_sum = sidea + sideb_flipped
+
+    if numpy.equal(sidea, sideb_flipped):
         return 1    #it's symmetrical
-    elif :
+    elif sides_sum[sides_sum==3].size==0:   #search for 3s, which can appear only if 2+1, in which case the board can't return symmetrical anymore
         return 0    #could be symmetrical in the future
     else:
         return -1   #not symmetrical
