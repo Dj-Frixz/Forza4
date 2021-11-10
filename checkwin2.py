@@ -2,7 +2,8 @@
 
 import numpy as np
 
-def run(board, empty_cells, a, b, player):
+def run(board, empty_cells, b, player):
+    a = empty_cells[b]
     win = 0 #default state: nothing found
     #vertical win check
     if a<3 and np.array_equal(board[a:a+4,b],np.full(4,1)):
@@ -20,13 +21,11 @@ def run(board, empty_cells, a, b, player):
     if win!=2:
         win += seconddiagonal(np.diagonal(board[:,::-1],6-a-b)[::-1] == player,6-a-b,empty_cells)
     if win==0:
-        print("Uh oh, looks like the match isn't over yet")
+        return 0    #nothing
     elif win==1:
-        print("HAha you gotta move there or you'll lose")
-    elif win>1:
-        print('I win! You suck!')
+        return 1    #forced move
     else:
-        print('Error: no matching win-code')
+        return 2    #victory
 
 def horizontal(row, row_index, empty_cells):
 
@@ -167,15 +166,16 @@ def seconddiagonal(diagonal, offset, empty_cells):
             return 1
     return 0
 
-matrix = np.array([
-        #0 1 2 3 4 5 6
-        [0,0,0,0,0,0,0], #0
-        [0,0,0,0,0,0,0], #1
-        [0,0,0,0,0,0,0], #2
-        [0,0,0,0,1,1,1], #3
-        [0,2,0,2,0,2,0], #4
-        [0,0,0,0,0,0,0]])#5
+if __name__=='__main__':
+    matrix = np.array([
+            #0 1 2 3 4 5 6
+            [0,0,0,0,0,0,0], #0
+            [0,0,0,0,0,0,0], #1
+            [0,0,0,0,0,0,0], #2
+            [0,0,0,0,1,1,1], #3
+            [0,2,0,2,0,2,0], #4
+            [0,0,0,0,0,0,0]])#5
 
-a,b = 3,4
-empty_cells = np.array([6,6,6,4,3,3,3])
-run(matrix,empty_cells,a,b,1)
+    a,b = 3,4
+    empty_cells = np.array([6,6,6,4,3,3,3])
+    run(matrix,empty_cells,a,b,1)
