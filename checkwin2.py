@@ -2,30 +2,32 @@
 
 import numpy as np
 
-def run(board, empty_cells, b, player):
+def run(board, empty_cells, b):
     a = empty_cells[b]
-    win = 0 #default state: nothing found
+    win = np.array([0,0]) #default state: nothing found
     #vertical win check
     if a<3 and np.array_equal(board[a:a+4,b],np.full(4,1)):
-        win = 2
+        win[0] = 2
     #vertical tris check
     elif a==3:
-        win += np.array_equal(board[a:a+3,b],np.full(3,1))
+        win[0] += np.array_equal(board[a:a+3,b],np.full(3,1))
+        if win[0]==1:
+            win[1] = b
     #horizontal win/tris check
-    if win!=2:
-        win += horizontal(board[a]==player,a,empty_cells==a+1)
+    if win[0]!=2:
+        win += horizontal(board[a],a,empty_cells==a+1)
     #top-left to bottom-right diagonal win/tris check
-    if win!=2:
-        win += firstdiagonal(np.diagonal(board,b-a)==player,b-a,empty_cells)
+    if win[0]!=2:
+        win += firstdiagonal(np.diagonal(board,b-a),b-a,empty_cells)
     #top-right to bottom-left diagonal win/tris check
-    if win!=2:
-        win += seconddiagonal(np.diagonal(board[:,::-1],6-a-b)[::-1] == player,6-a-b,empty_cells)
-    if win==0:
-        return 0    #nothing
-    elif win==1:
-        return 1    #forced move
+    if win[0]!=2:
+        win += seconddiagonal(np.diagonal(board[:,::-1],6-a-b)[::-1],6-a-b,empty_cells)
+    if win[0]==0:
+        return -1       #nothing
+    elif win[0]==1:
+        return win[1]   #forced move
     else:
-        return 2    #victory
+        return -2       #victory
 
 def horizontal(row, row_index, empty_cells):
 
@@ -52,21 +54,21 @@ def horizontal(row, row_index, empty_cells):
 
         if comb.size:
             #two possible combinations, opponent already lost   ex. |_|O|O|O|_|
-            comb = np.where(e1*p2*p3*p4*np.append(e4[1:],False))[0] #01110
-            if comb.size:
+            comb2 = np.where(e1*p2*p3*p4*np.append(e4[1:],False))[0] #01110
+            if comb2.size:
                 return 2
             else:
-                return 1 #forced move
+                return [1,comb[0]+3] #forced move
         else:
             comb = np.where(e1*p2*p3*p4)[0] #0111
             if comb.size:
-                return 1
+                return [1,comb[0]]
             comb = np.where(p1*e2*p3*p4)[0] #1011
             if comb.size:
-                return 1
+                return [1,comb[0]+1]
             comb = np.where(p1*p2*e3*p4)[0] #1101
             if comb.size:
-                return 1
+                return [1,comb[0]+2]
     #no combination found
     return 0
 
@@ -101,21 +103,21 @@ def firstdiagonal(diagonal, offset, empty_cells):
     comb = np.where(p1*p2*p3*e4)[0]     #1110
 
     if comb.size:
-        comb = np.where(e1*p2*p3*p4)[0] #0111
-        if comb.size:
+        comb2 = np.where(e1*p2*p3*p4)[0] #0111
+        if comb2.size:
             return 2 #01110
         else:
-            return 1 #forced move
+            return [1,comb[0]+3] #forced move
     else:
         comb = np.where(e1*p2*p3*p4)[0] #0111
         if comb.size:
-            return 1
+            return [1,comb[0]]
         comb = np.where(p1*e2*p3*p4)[0] #1011
         if comb.size:
-            return 1
+            return [1,comb[0]+1]
         comb = np.where(p1*p2*e3*p4)[0] #1101
         if comb.size:
-            return 1
+            return [1,comb[0]+2]
     return 0
 
 def seconddiagonal(diagonal, offset, empty_cells):
@@ -149,21 +151,21 @@ def seconddiagonal(diagonal, offset, empty_cells):
     comb = np.where(p1*p2*p3*e4)[0]     #1110
 
     if comb.size:
-        comb = np.where(e1*p2*p3*p4)[0] #0111
-        if comb.size:
+        comb2 = np.where(e1*p2*p3*p4)[0] #0111
+        if comb2.size:
             return 2 #01110
         else:
-            return 1 #forced move
+            return [1,comb[0]+3] #forced move
     else:
         comb = np.where(e1*p2*p3*p4)[0] #0111
         if comb.size:
-            return 1
+            return [1,comb[0]]
         comb = np.where(p1*e2*p3*p4)[0] #1011
         if comb.size:
-            return 1
+            return [1,comb[0]+1]
         comb = np.where(p1*p2*e3*p4)[0] #1101
         if comb.size:
-            return 1
+            return [1,comb[0]+2]
     return 0
 
 if __name__=='__main__':
@@ -178,4 +180,4 @@ if __name__=='__main__':
 
     a,b = 3,4
     empty_cells = np.array([6,6,6,4,3,3,3])
-    run(matrix,empty_cells,a,b,1)
+    print(run(matrix==1,empty_cells,b))
