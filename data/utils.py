@@ -1,9 +1,9 @@
 import numpy as np
-from pygame.image import load
+#from lib.pygame.image import load
 
 def isSymmetrical(matrix):
     #slice the matrix vertically
-    sidea, x, sideb = np.hsplit(matrix,np.array([3,4]))
+    sidea, _, sideb = np.hsplit(matrix,np.array([3,4]))
     #flip 'left and right' sideb to match sidea
     sideb_flipped = np.fliplr(sideb)
 
@@ -17,11 +17,11 @@ def isSymmetrical(matrix):
         else:
             return -1   #not symmetrical
 
-def load_sprite(name, withAlpha=True):
+'''def load_sprite(name, withAlpha=True):
     path = f'data/sprites/{name}'
     loaded_sprite = load(path)
 
     if withAlpha:
         return loaded_sprite.convert_alpha()
     else:
-        return loaded_sprite.convert()
+        return loaded_sprite.convert()'''

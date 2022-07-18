@@ -1,7 +1,7 @@
 import numpy as np
 from numpy.core.fromnumeric import size
 import checkwin2
-import pygame
+import lib.pygame as pygame
 from data.utils import load_sprite
 
 class Game:

@@ -17,7 +17,7 @@ def moves(board,empty_cells,b,color):
 def checkwins(board,empty_cells,indices,color):
     victory = -1
     for i in indices:
-        moved = move(board,empty_cells,i,color)
+        moved = moves(board,empty_cells,i,color)
         if checkwin2.run(moved[0]==color,moved[1],i)==-2:
             if victory!=-1:
                 return -2
